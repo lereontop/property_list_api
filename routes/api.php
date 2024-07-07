@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrolkerController;
+use App\Http\Controllers\PropertiesController;
 use App\Models\Broker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,15 +24,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/login', [AuthController::class, 'login']);
+
 Route::post('/register', [AuthController::class, 'register']);
-Route::resource('/broker', BrolkerController::class);
+
+Route::get('/broker', [BrolkerController::class, 'index']);
+
+Route::get('/broker/{broker}', [BrolkerController::class, 'show']);
+
+Route::get('/property', [PropertiesController::class, 'index']);
+
+Route::get('/property/{property}', [PropertiesController::class, 'show']);
 
 
-Route::group(['middleware'=> ['auth:sanctum']], function(){
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::apiResource('/broker', BrolkerController::class)->only(
+        ['store', 'update', 'destroy']
+    );
 
-
-
+    Route::apiResource('/property', PropertiesController::class)->only(
+        ['store', 'update', 'destroy']
+    );
 });

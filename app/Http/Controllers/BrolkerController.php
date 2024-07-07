@@ -55,9 +55,9 @@ class BrolkerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Broker $broker)
+    public function update(StoreBrokerRequest $request, Broker $broker)
     {
-        $broker->update($request->only([
+        $broker->update ($request->only([
             'name', 'address', 'city', 'zip_code', 'phone_nmber', 'logo_path'
 
         ]));
@@ -69,8 +69,12 @@ class BrolkerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Broker $broker)
     {
-        //
+        $broker->delete();
+        return response()->json([
+            'success' => 'true',
+            'message' => 'The broker has been deleted from the databese'
+        ]);
     }
 }

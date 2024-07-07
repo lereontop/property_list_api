@@ -10,7 +10,7 @@ class Property extends Model
     use HasFactory;
 
     protected $fillable = [
-        'boroker_id',
+        'broker_id',
         'address',
         'listing_type',
         'city',
@@ -18,4 +18,8 @@ class Property extends Model
         'description',
         'build_year'
     ];
+
+    public function characteristic(){
+        return $this->hasOne(PropertyCharacteristic::class);
+    }
 }
